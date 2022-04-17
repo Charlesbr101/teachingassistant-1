@@ -13,16 +13,24 @@ export class AlunoService {
 
   constructor(private http: HttpClient) {}
 
-  criar(aluno: Aluno): Observable<Aluno | null> {
+  criar(aluno: Aluno): Observable<Aluno | boolean> {
     return this.http.post<any>(this.taURL + "/aluno", aluno, {headers: this.headers})
              .pipe( 
                 retry(2),
-                map( res => {if (res.success) {return aluno;} else {return null;}} )
+                map( res => {if (res.success) {return aluno;} else { if(res.cpfd) {return true;} else{return false}}} )
               ); 
   }
 
   atualizar(aluno: Aluno): Observable<Aluno | null> {
     return this.http.put<any>(this.taURL + "/aluno",JSON.stringify(aluno), {headers: this.headers})          .pipe( 
+                retry(2),
+                map( res => {if (res.success) {return aluno;} else {return null;}} )
+              ); 
+  }
+
+  remover(aluno: Aluno): Observable<Aluno | null> {
+    return this.http.delete<any>(this.taURL + "/aluno/"+aluno.cpf, {headers: this.headers})
+             .pipe( 
                 retry(2),
                 map( res => {if (res.success) {return aluno;} else {return null;}} )
               ); 

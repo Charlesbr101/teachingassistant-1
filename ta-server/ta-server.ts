@@ -23,13 +23,15 @@ taserver.get('/alunos', function (req: express.Request, res: express.Response) {
 })
 
 taserver.post('/aluno', function (req: express.Request, res: express.Response) {
-  var aluno: Aluno = <Aluno> req.body; //verificar se é mesmo Aluno!
-  aluno = cadastro.cadastrar(aluno);
-  if (aluno) {
-    res.send({"success": "O aluno foi cadastrado com sucesso"});
-  } else {
-    res.send({"failure": "O aluno não pode ser cadastrado"});
-  }
+  var aluno: Aluno = <Aluno> req.body; //verificar se ï¿½ mesmo Aluno!
+  var retaluno = cadastro.cadastrar(aluno);
+  if (retaluno == true) {
+    res.send({"cpfd": "O aluno nï¿½o pode ser cadastrado, cpf jÃ¡ existe"});
+  } else if(retaluno == false) {
+    res.send({"gitd": "O aluno nï¿½o pode ser cadastrado, login git jÃ¡ existe"});
+  } else{
+      res.send({"success": "O aluno foi cadastrado com sucesso"});
+    }
 })
 
 taserver.put('/aluno', function (req: express.Request, res: express.Response) {
@@ -38,7 +40,17 @@ taserver.put('/aluno', function (req: express.Request, res: express.Response) {
   if (aluno) {
     res.send({"success": "O aluno foi atualizado com sucesso"});
   } else {
-    res.send({"failure": "O aluno não pode ser atualizado"});
+    res.send({"failure": "O aluno nï¿½o pode ser atualizado"});
+  }
+})
+
+taserver.delete('/aluno/:cpf', function (req: express.Request, res: express.Response) {
+  var cpf: String = <String> req.params.cpf;
+  var aluno = cadastro.remover(cpf);
+  if (aluno) {
+    res.send({"success": "O aluno foi atualizado com sucesso"});
+  } else {
+    res.send({"failure": "O aluno nï¿½o pode ser atualizado"});
   }
 })
 

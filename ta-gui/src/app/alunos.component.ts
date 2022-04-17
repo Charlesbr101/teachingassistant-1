@@ -12,6 +12,7 @@ import { AlunoService } from './aluno.service';
     aluno: Aluno = new Aluno();
     alunos: Aluno[] = [];
     cpfduplicado: boolean = false;
+    gitduplicado: boolean = false;
 
     constructor(private alunoService: AlunoService) {}
 
@@ -19,19 +20,35 @@ import { AlunoService } from './aluno.service';
        this.alunoService.criar(a)
               .subscribe(
                 ar => {
-                  if (ar) {
+                  if (ar == true) {
+                    this.cpfduplicado = true;
+                  } else if (ar == false){
+                    this.gitduplicado = true;
+                  } else{
                     this.alunos.push(ar);
                     this.aluno = new Aluno();
-                  } else {
-                    this.cpfduplicado = true;
-                  } 
+                  }
                 },
                 msg => { alert(msg.message); }
               );
     } 
+    removerAluno(a: Aluno): void {
+      this.alunoService.remover(a)
+             .subscribe(
+               ar => {
+                 if(ar){
+                   this.alunos = this.alunos.filter(a => a.cpf != ar.cpf);
+                 } else{
+                   alert("Remoção mal-sucedida, cpf não encontrado");
+                 }
+               },
+               msg => { alert(msg.message); }
+             );
+   } 
 
     onMove(): void {
        this.cpfduplicado = false;
+       this.gitduplicado = false;
     }
 
      ngOnInit(): void {

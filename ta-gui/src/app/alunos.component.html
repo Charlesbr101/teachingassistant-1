@@ -14,6 +14,13 @@
     </td>
  </tr>
  <tr>
+   <td><label>Login do Github </label></td>
+   <td><input [(ngModel)]="aluno.git" ></td>
+   <td *ngIf="gitduplicado">
+     Já existe um aluno com esse login do git
+   </td>
+</tr>
+ <tr>
     <td><label>e-mail </label></td>
     <td><input [(ngModel)]="aluno.email" ></td>
  </tr>
@@ -23,12 +30,15 @@
  <tr *ngIf="alunos.length > 0">
     <th>Nome</th>
     <th>CPF</th>
+    <th>Login do Github</th>
     <th>e-mail</th>
  </tr>
  <tr *ngFor="let a of alunos">
     <td>{{a.nome}}</td>
     <td>{{a.cpf}}</td>
+    <td>{{a.git}}</td>
     <td>{{a.email}}</td>
+    <td><button (click) = "removerAluno(a)">Remover</button></td>
  </tr>
  </table>
 

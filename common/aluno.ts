@@ -1,6 +1,7 @@
 export class Aluno {
   nome!: string;
   cpf!: string;
+  git!: string;
   email!: string;
   metas!: {[index:string]:string};
 
@@ -11,6 +12,7 @@ export class Aluno {
   clean(): void {
     this.nome = "";
     this.cpf = "";
+    this.git = "";
     this.email = "";
     this.metas = {};
   }
@@ -24,6 +26,7 @@ export class Aluno {
   copyFrom(from: Aluno): void {
     this.nome = from.nome;
     this.cpf = from.cpf;
+    this.git = from.git;
     this.email = from.email;
     this.copyMetasFrom(from.metas);
   }
